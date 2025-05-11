@@ -47,51 +47,17 @@ This project demonstrates how to create and deploy HTTPS certificates using a cu
 - [Apache SSL Config Guide](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html)
 
 Potential Security Risk Ahead: HTTPS Certificate Authority Project
-Sections:
-Introduction
 
-Purpose of securing web traffic with HTTPS.
+mkdir myCA  
+cd myCA  
+openssl genrsa -out myCA.key 2048  
+openssl req -x509 -new -nodes -key myCA.key -sha256 -days 3650 -out myCA.pem  
 
-Risk of self-signed certificates and benefits of CA-signed certs.
+openssl genrsa -out server.key 2048  
+openssl req -new -key server.key -out server.csr -config san.cnf  
 
-Environment Setup
+openssl x509 -req -in server.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out server.crt -days 365 -sha256 -extfile san.cnf -extensions req_ext  
 
-Ubuntu VM setup, Apache2 installation.
-
-Switching to Bridged mode for Windows testing.
-
-Creating the Certificate Authority
-
-Steps and commands used.
-
-Folder structure (/CA, /certs, etc.)
-
-Creating the Server Certificate
-
-Generating CSR.
-
-Signing with your CA.
-
-Configuring Apache to use the new certs.
-
-Verification
-
-Firefox screenshots (Ubuntu & Windows).
-
-Validation of cert chain (OpenSSL output or browser security tab).
-
-Extra Credit
-
-SAN field update.
-
-Windows trust store import.
-
-IP-based browser test with secure connection.
-
-Conclusion
-
-Lessons learned.
-
-Real-world relevance (e.g., how enterprise trust models work).
-
-Common pitfalls in TLS setup.
+sudo a2enmod ssl  
+sudo a2ensite default-ssl  
+sudo systemctl reload apache2  
