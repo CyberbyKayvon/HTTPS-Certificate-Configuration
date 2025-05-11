@@ -46,8 +46,8 @@ This project demonstrates how to create and deploy HTTPS certificates using a cu
 - [OpenSSL Documentation](https://www.openssl.org/docs/)
 - [Apache SSL Config Guide](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html)
 
-Potential Security Risk Ahead: HTTPS Certificate Authority Project
-
+**Potential Security Risk Ahead: HTTPS Certificate Authority Project
+**
 mkdir myCA  
 cd myCA  
 openssl genrsa -out myCA.key 2048  
